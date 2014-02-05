@@ -57,3 +57,16 @@ Render the template:
 Display the generated HTML:
 
     $( "body" ).append( dom );
+
+# How fast is it exactly?
+
+According to my not-too-scientific tests in Chrome 32, very fast. The test consisted of compiling a simple template and rendering it 10000 times with random data. Here are the results (median of 10 runs):
+
+* Handlebars: 35 ms
+* Hogan: 29.5 ms
+* John Resigs Micro Template: 37 ms
+* Mustache.js: 56 ms
+* Underscore: 29.5 ms
+* Temple: **17.5 ms**
+
+I attribute a lot of the speed gain to reduced functionality though. Temple does not escape things, there are no sections (hierarchies of templates), it can't handle arrays or functions, there is no inline scripting functionality...
