@@ -1,0 +1,79 @@
+<html>
+  <head>
+	<meta charset="utf-8"/>
+	<title>Mustache</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+		// Simple JavaScript Templating
+		// John Resig - http://ejohn.org/ - MIT Licensed
+		(function(){
+		  var cache = {};
+		 
+		  this.tmpl = function tmpl(str, data){
+			// Figure out if we're getting a template, or if we need to
+			// load the template - and be sure to cache the result.
+			var fn = !/\W/.test(str) ?
+			  cache[str] = cache[str] ||
+				tmpl(document.getElementById(str).innerHTML) :
+			 
+			  // Generate a reusable function that will serve as a template
+			  // generator (and which will be cached).
+			  new Function("obj",
+				"var p=[],print=function(){p.push.apply(p,arguments);};" +
+			   
+				// Introduce the data as local variables using with(){}
+				"with(obj){p.push('" +
+			   
+				// Convert the template into pure JavaScript
+				str
+				  .replace(/[\r\t\n]/g, " ")
+				  .split("<%").join("\t")
+				  .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+				  .replace(/\t=(.*?)%>/g, "',$1,'")
+				  .split("\t").join("');")
+				  .split("%>").join("p.push('")
+				  .split("\r").join("\\'")
+			  + "');}return p.join('');");
+		   
+			// Provide some basic currying to the user
+			return data ? fn( data ) : fn;
+		  };
+		})();
+	</script>
+	<script id="test" type="temple/template">
+	  <div>
+		<h1>{{name}}</h1>
+		<p>
+		  She has {{dollars}} $.
+		</p>
+	  </div>
+	</script>
+	<script id="empty" type="temple/template">
+	  <pre>This is static text.</pre>
+	</script>
+	<script>
+	  $( document ).ready( function() {
+		var testTemplate = $( "#test" ).html(),
+			template = tmpl( testTemplate )
+			start = Date.now(),
+			$body = $( "body" );
+
+		for( var i = 0 ; i < 10000; i++ ) {
+		  var obj = {
+			"name": Math.random().toString(36).substr(2, 10),
+			"dollars": Math.floor( Math.random() * 1000000 )
+		  };
+
+		  template( obj );
+		}
+
+		var end = Date.now();
+		console.debug( end - start, "ms" );
+	  });
+	  
+	</script>
+  </head>
+  <body>
+	
+  </body>
+</html>

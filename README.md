@@ -1,6 +1,6 @@
 # Temple.js
 
-Super-simple templating on steroids on top of regular steroids. Only for nested objects, the speed comes at a price.
+Super-simple templating. It doesn't do much, but it's quite fast at what it's doing.
 
 # Features
 
