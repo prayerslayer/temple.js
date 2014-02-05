@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Temple Demo</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../lib/temple.js"></script>
+		<script id="test" type="temple/template">
+			<div id="{{db.id}}">
+				<h1>{{name}}</h1>
+				<p>
+					He lives in {{location}} and likes {{hobbies}}.
+				</p>
+			</div>
+		</script>
+		<script id="empty" type="temple/template">
+			<pre>This is static text.</pre>
+		</script>
+		<script>
+			$( document ).ready( function() {
+				var templates = new Temple();
+
+				var dom = templates
+						.template( "#test" )
+						.render({
+							"db": {
+								"id": "c4282580258"
+							},
+							"name": "Hugo Floss",
+							"location": "Berlin",
+							"hobbies": "Sailing"
+						});
+				$( "body" ).append( $( dom ) );
+
+				var dom2 = templates
+						.template( "#test" )
+						.render({
+							"db": {
+								"id": "g482258025"
+							},
+							"name": "Hugo Rugo",
+							"location": "Frankfurt",
+							"hobbies": "escaping < ' \" > &"
+						});
+				$( "body" ).append( $( dom2 ) );
+
+				var emptydom = templates
+						.template( "#empty" )
+						.render();
+				$( "body" ).append( $( emptydom ) );
+			});	
+			
+		</script>
+	</head>
+	<body>
+		
+	</body>
+</html>

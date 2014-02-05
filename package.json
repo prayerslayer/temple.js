@@ -1,0 +1,25 @@
+{
+  "name": "Temple",
+  "version": "0.0.1",
+  "homepage": "https://github.com/prayerslayer/templejs",
+  "year" : "2014",
+  "description": "A hacky-whacky template engine.",
+  "author": {
+    "name": "Nikolaus Piccolotto",
+    "email": "hello@npiccolotto.com",
+    "url": "http://npiccolotto.com",
+    "github" : "https://github.com/prayerslayer"
+  },
+  "licenses": [{
+    "type": "MIT"
+  }],
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-watch": "~0.4.4"
+  },
+  "peerDependencies": {
+    "grunt-cli": "*"
+  }
+}
