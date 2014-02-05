@@ -17,9 +17,9 @@
 		</script>
 		<script>
 			$( document ).ready( function() {
-				var temple = new Temple(),
+				var start = Date.now(),
+					temple = new Temple(),
 					testTemplate = temple.template( "#test" ),
-					start = Date.now(),
 					$body = $( "body" );
 
 				for( var i = 0 ; i < 10000; i++ ) {

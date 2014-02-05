@@ -10,6 +10,13 @@
 		  var cache = {};
 		 
 		  this.tmpl = function tmpl(str, data){
+		  	str = str.replace(/[\r\t\n]/g, " ");
+			str = str.split("<%").join("\t");
+			str = str.replace(/((^|%>)[^\t]*)'/g, "$1\r");
+			str = str.replace(/\t=(.*?)%>/g, "',$1,'");
+			str = str.split("\t").join("');");
+			str = str.split("%>").join("p.push('");
+			str = str.split("\r").join("\\'");
 			// Figure out if we're getting a template, or if we need to
 			// load the template - and be sure to cache the result.
 			var fn = !/\W/.test(str) ?
@@ -19,20 +26,13 @@
 			  // Generate a reusable function that will serve as a template
 			  // generator (and which will be cached).
 			  new Function("obj",
-				"var p=[],print=function(){p.push.apply(p,arguments);};" +
+				"var p=[];" +
 			   
 				// Introduce the data as local variables using with(){}
-				"with(obj){p.push('" +
+				"with(obj){p.push('" + str
 			   
 				// Convert the template into pure JavaScript
-				str
-				  .replace(/[\r\t\n]/g, " ")
-				  .split("<%").join("\t")
-				  .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-				  .replace(/\t=(.*?)%>/g, "',$1,'")
-				  .split("\t").join("');")
-				  .split("%>").join("p.push('")
-				  .split("\r").join("\\'")
+				
 			  + "');}return p.join('');");
 		   
 			// Provide some basic currying to the user
@@ -42,9 +42,9 @@
 	</script>
 	<script id="test" type="temple/template">
 	  <div>
-		<h1>{{name}}</h1>
+		<h1><%=name%></h1>
 		<p>
-		  She has {{dollars}} $.
+		  She has <%=dollars%> $.
 		</p>
 	  </div>
 	</script>
@@ -53,9 +53,9 @@
 	</script>
 	<script>
 	  $( document ).ready( function() {
-		var testTemplate = $( "#test" ).html(),
+		var start = Date.now(),
+			testTemplate = $( "#test" ).html(),
 			template = tmpl( testTemplate )
-			start = Date.now(),
 			$body = $( "body" );
 
 		for( var i = 0 ; i < 10000; i++ ) {

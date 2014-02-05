@@ -17,9 +17,9 @@
 		</script>
 		<script>
 			$( document ).ready( function() {
-				var source = $( "#test" ).html(),
+				var start = Date.now(),
+					source = $( "#test" ).html(),
 					testTemplate = Handlebars.compile( source ),
-					start = Date.now(),
 					$body = $( "body" );
 
 				for( var i = 0 ; i < 10000; i++ ) {
